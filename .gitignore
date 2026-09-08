@@ -1,0 +1,12 @@
+# Entornos virtuales
+env/
+venv/
+
+# Seguridad y Base de Datos
+wallet/
+db.sqlite3
+.env
+
+# Archivos cacheados de Python
+__pycache__/
+*.pyc
