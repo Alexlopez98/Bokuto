@@ -231,6 +231,7 @@
         const PLACEHOLDER_IMG = 'https://via.placeholder.com/100?text=Sin+Imagen';
         
         let listaProductosGlobal = [];
+        let listaProductosFiltrados = [];
         let listaLotesGlobal = [];
         let productoSeleccionado = null;
         let modalDetalleEl = null;
@@ -300,6 +301,7 @@
         }
 
         function renderizarListaProductos(productos) {
+            listaProductosFiltrados = productos;
             const contenedor = document.getElementById('contenedor-productos');
             contenedor.innerHTML = '';
 
@@ -336,7 +338,7 @@
         }
 
         function abrirDetallePorIndice(index) {
-            const prod = listaProductosGlobal[index];
+            const prod = listaProductosFiltrados[index];
             if (!prod) return;
             
             productoSeleccionado = prod;
