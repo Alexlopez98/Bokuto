@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from .models import Producto, LoteStock, Merma, Movimiento
+from django.shortcuts import render
 from .serializers import (
     ProductoSerializer, 
     LoteStockSerializer, 
@@ -24,3 +25,9 @@ class MermaViewSet(viewsets.ModelViewSet):
 class MovimientoViewSet(viewsets.ModelViewSet):
     queryset = Movimiento.objects.all()
     serializer_class = MovimientoSerializer
+    
+def dashboard_web(request):
+    return render(request, 'dashboard.html')
+
+def productos_web(request):
+    return render(request, 'productos.html')

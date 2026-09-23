@@ -1,0 +1,11 @@
+.logo-icon {
+    filter: brightness(0) invert(1);
+}
+
+.logo-title {
+    letter-spacing: 1px;
+}
+
+.logo-subtitle {
+    font-size: 0.8rem;
+}
