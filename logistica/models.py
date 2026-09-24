@@ -43,14 +43,27 @@ class Usuario(AbstractUser):
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.rol})"
 
-# 3. Catálogo Maestro de Productos
+
+# 3. Categorías para Productos
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+
+# 4. Catálogo Maestro de Productos
 class Producto(models.Model):
     codigo_barras = models.CharField(max_length=50, primary_key=True)
     codigo_interno = models.CharField(max_length=20, blank=True, null=True, db_index=True)
     nombre = models.CharField(max_length=150)
     marca = models.CharField(max_length=100, blank=True, null=True)
     descripcion = models.TextField(blank=True, null=True)
-    categoria = models.CharField(max_length=100)
+    
+    # Relación de Llave Foránea hacia la tabla Categoria
+    categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name='productos')
+    
     stock_minimo = models.PositiveIntegerField(default=10, help_text="Umbral para alerta en panel admin")
     
     # Campo para la imagen de referencia (preparado para AWS S3)
@@ -59,7 +72,7 @@ class Producto(models.Model):
     def __str__(self):
         return f"{self.nombre} ({self.marca}) - {self.codigo_barras}"
 
-# 4. Control FEFO: Lotes de Stock
+# 5. Control FEFO: Lotes de Stock
 class LoteStock(models.Model):
     UBICACION_CHOICES = (
         ('BODEGA', 'Bodega Principal'),
@@ -83,7 +96,7 @@ class LoteStock(models.Model):
     def __str__(self):
         return f"Lote {self.id} | {self.producto.nombre} | Vence: {self.fecha_vencimiento}"
 
-# 5. Auditoría: Mermas
+# 6. Auditoría: Mermas
 class Merma(models.Model):
     MOTIVO_CHOICES = (
         ('VENCIMIENTO', 'Vencimiento'),
@@ -101,7 +114,7 @@ class Merma(models.Model):
     def __str__(self):
         return f"Merma: {self.cantidad} unid. de {self.lote.producto.nombre} ({self.motivo})"
 
-# 6. Movimientos Logísticos (Tracking)
+# 7. Movimientos Logísticos (Tracking)
 class Movimiento(models.Model):
     lote = models.ForeignKey(LoteStock, on_delete=models.CASCADE, related_name='movimientos')
     cantidad = models.PositiveIntegerField()

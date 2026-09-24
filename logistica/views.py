@@ -1,12 +1,17 @@
 from rest_framework import viewsets
-from .models import Producto, LoteStock, Merma, Movimiento
+from .models import Categoria, Producto, LoteStock, Merma, Movimiento
 from django.shortcuts import render
 from .serializers import (
+    CategoriaSerializer,
     ProductoSerializer, 
     LoteStockSerializer, 
     MermaSerializer, 
     MovimientoSerializer
 )
+
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
 
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
