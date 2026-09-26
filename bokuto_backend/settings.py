@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 import oracledb
 from dotenv import load_dotenv
+from datetime import timedelta
 
 # Activar el modo "Thick" de oracledb para leer el Wallet de Oracle
 #oracledb.init_oracle_client()
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     
     # Librerías externas
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     'storages',  # Añadido para AWS S3
     
@@ -148,4 +150,19 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
